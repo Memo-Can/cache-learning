@@ -29,6 +29,10 @@ public class HomeController : Controller
             //Priorty is using for one of the cache is removed if somthing happen in memory. For example if memory limit is reached which caches should be remove
             options.Priority = CacheItemPriority.Normal;
 
+            //Give an information about why a cache removed from memory
+            options.RegisterPostEvictionCallback((key,value,reason,state)=>{
+                _memoryCache.Set("callback",$"key: {key}, value: {value}, reason={reason}");
+            });
 
             _memoryCache.Set<string>("time",DateTime.Now.ToString(),options);
         }
@@ -36,7 +40,7 @@ public class HomeController : Controller
         return View();
     }
 
-     public IActionResult Show()
+    public IActionResult Show()
     {
         //way 1 get a memory cache
         //ViewBag.time= _memoryCache.Get<string>("time");    
@@ -47,7 +51,10 @@ public class HomeController : Controller
         //});
 
         _memoryCache.TryGetValue("time", out string timeCache);
+        _memoryCache.TryGetValue("callback", out string callback);
+
         ViewBag.time = timeCache;
+        ViewBag.time = callback;
         
         return View();
     }
