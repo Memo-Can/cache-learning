@@ -1,0 +1,12 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  inmemoryapp:
+    image: inmemoryapp
+    build:
+      context: .
+      dockerfile: InMemoryApp/Dockerfile
+    ports:
+      - 5020:5020
