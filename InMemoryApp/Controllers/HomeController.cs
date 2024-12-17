@@ -19,11 +19,16 @@ public class HomeController : Controller
         if(!_memoryCache.TryGetValue("time", out string timeCache))
         {
             var options =new MemoryCacheEntryOptions();
+
             //time limit 10 seconds for cache
             options.AbsoluteExpiration = DateTime.Now.AddSeconds(10);
             
             //expritian time is increse 5 sec per refresh
             options.SlidingExpiration = TimeSpan.FromSeconds(5);
+
+            //Priorty is using for one of the cache is removed if somthing happen in memory. For example if memory limit is reached which caches should be remove
+            options.Priority = CacheItemPriority.Normal;
+
 
             _memoryCache.Set<string>("time",DateTime.Now.ToString(),options);
         }
