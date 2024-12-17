@@ -37,6 +37,11 @@ public class HomeController : Controller
             _memoryCache.Set<string>("time",DateTime.Now.ToString(),options);
         }
 
+        //Complex type cache sample
+        var user = new User{Id= Guid.NewGuid(), Name="John", SureName="Wick"};
+
+        _memoryCache.Set<User>("userCache", user);
+
         return View();
     }
 
@@ -52,9 +57,11 @@ public class HomeController : Controller
 
         _memoryCache.TryGetValue("time", out string timeCache);
         _memoryCache.TryGetValue("callback", out string callback);
+       
 
         ViewBag.time = timeCache;
-        ViewBag.time = callback;
+        ViewBag.callback = callback;
+        ViewBag.userCache = _memoryCache.Get<User>("userCache");
         
         return View();
     }

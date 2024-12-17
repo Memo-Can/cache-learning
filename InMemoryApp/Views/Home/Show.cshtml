@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Show The Cache";
+
+    User user = ViewBag.userCache as User;
 }
 <h1>@ViewBag.time</h1>
 <h2>@ViewBag.callback</h2>
+<h2>@user.Id > @user.Name > @user.SureName </h2>  
